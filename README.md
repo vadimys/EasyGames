@@ -1,1 +1,1 @@
-# EasyGames
+# EasyGames project
