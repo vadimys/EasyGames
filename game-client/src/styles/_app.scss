@@ -1,0 +1,16 @@
+body {
+  background-color: $color4;
+}
+
+img {
+  max-width: 100%;
+}
+
+.card {
+  margin-bottom: 1rem;
+}
+
+.plate {
+  @extend .box-shadow;
+  background-color: white;
+}

@@ -1,0 +1,21 @@
+$color1: #26a3a7;
+$color2: #1f706c;
+$color3: #f8f9fa;
+$color4: #ffffff;
+
+$colors: (
+        "c1": $color1,
+        "c2": $color2,
+        "c3": $color3,
+        "c4": $color4,
+);
+
+//$grad: (
+//        "90": $color1,
+//        "80": $color2,
+//        "70": $color3,
+//        "60": $color4,
+//);
+
+$primary: $color1 !default;
+$yellow: #ffec00 !default;

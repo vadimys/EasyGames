@@ -1,0 +1,40 @@
+.w30 {
+  width: 30px;
+}
+
+.h30 {
+  height: 30px;
+}
+
+.box-shadow {
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+}
+
+@each $color, $value in $colors {
+  .bc-#{$color} {
+    background-color: $value;
+  }
+}
+
+.nom {
+  margin: 0;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.wr-tb-1 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.wr-tb-2 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.wr-tb-3 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
