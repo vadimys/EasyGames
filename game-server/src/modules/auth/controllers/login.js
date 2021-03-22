@@ -1,18 +1,34 @@
-import Auth from '../../auth/authModel';
+import User from '../userModel';
+import bcrypt from 'bcryptjs';
 
-const login = (req, res) => {
-  Auth.exists({
-    username: req.username,
-    password: req.password,
-  })
-    .then(status => {
-      status
-        ? res.status(201).json('User logged in!')
-        : res.status(404).json('User not found!');
-    })
-    .catch(err => {
-      res.status(500).json(err);
+export default async function signin(req, res) {
+  User.findOne({
+    username: req.body.username,
+  }).exec((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+
+      return;
+    }
+
+    if (!user) {
+      return res.status(404).send({ message: 'User Not found.' });
+    }
+
+    const isValid = bcrypt.compareSync(req.body.password, user.password);
+
+    if (!isValid) {
+      return res.status(401).send({
+        accessToken: null,
+        message: 'Invalid Password!',
+      });
+    }
+
+    res.status(200).send({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      roles: ['user'],
     });
-};
-
-export default login;
+  });
+}

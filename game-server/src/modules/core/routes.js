@@ -1,7 +1,8 @@
-import registration from '../auth/controllers/register';
-import login from '../auth/controllers/login';
+import signup from '../auth/controllers/register';
+import signin from '../auth/controllers/login';
+import checkDuplicate from '../middlewares/checkDuplicate';
 
 export default function routes(app) {
-  app.post('/register', registration);
-  app.post('/login', login);
+  app.post('/signup', [checkDuplicate], signup);
+  app.post('/signin', signin);
 }

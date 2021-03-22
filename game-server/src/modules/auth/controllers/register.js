@@ -1,24 +1,18 @@
-import mongoose from 'mongoose';
-import Auth from '../authModel';
+import User from '../userModel';
+import bcrypt from 'bcryptjs';
 
-export default async function registration(req, res) {
-  const _id = new mongoose.Types.ObjectId();
-  const data = req.body.userData;
+export default async function signup(req, res) {
+  const { username, email, password } = req.body.userData;
+  const user = new User({ username, email, password: bcrypt.hashSync(password, 8) });
 
-  const auth = new Auth({
-    _id,
-    email: data.email,
-    username: data.username,
-    password: data.password,
+  user.save((err, user) => {
+    if (err) {
+      res.status(500).send({ message: err });
+
+      return;
+    }
+
+    user.roles = ['user'];
+    res.send({ message: 'User was successfully registered!' });
   });
-
-  auth
-    .save()
-    .then(() => {
-      res.status(201).json('User registered!');
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(err);
-    });
 }
