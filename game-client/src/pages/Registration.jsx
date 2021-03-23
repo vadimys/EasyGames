@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import auth from '../redux/actions/AuthActions';
-import {Button, Form, FormControl, FormGroup} from 'react-bootstrap';
-import {Redirect} from 'react-router';
+import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 
 export default function RegisterPage() {
   const [user, setUser] = useState({
@@ -11,7 +10,6 @@ export default function RegisterPage() {
     password: ''
   });
   const [submitted, setSubmitted] = useState(false);
-  const registered = useSelector(state => state.registration.registered);
   const registering = useSelector(state => state.registration.registering);
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -35,10 +33,6 @@ export default function RegisterPage() {
   useEffect(() => {
     dispatch(auth.logout());
   }, []);
-
-  if (registered) {
-    return <Redirect push to='/login'/>
-  }
 
   return (
     <div className='col-lg-8 offset-lg-2'>

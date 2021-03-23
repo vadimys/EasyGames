@@ -1,12 +1,13 @@
-import {useDispatch, useSelector} from 'react-redux'
-import React, {useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import history from './helpers/history';
-import alertActions from './redux/actions/AlertActions'
-import {Redirect, Route, Switch} from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
+import alertActions from './redux/actions/AlertActions';
+import { Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import pages from './pages'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Registration from './pages/Registration'
 
 export default function App() {
     const alert = useSelector(state => state.alert);
@@ -24,10 +25,9 @@ export default function App() {
                     {alert.message ?
                         <div className={`alert ${alert.type}`}>{alert.message}</div> : null}
                     <Switch>
-                        <PrivateRoute exact path='/' component={pages.home}/>
-                        <Route path='/login' component={pages.login}/>
-                        <Route path='/register' component={pages.registration}/>
-                        <Redirect from='*' to='/'/>
+                        <Route exact path='/' component={Home}/>
+                        <Route path='/login' component={Login}/>
+                        <Route path='/register' component={Registration}/>
                     </Switch>
                 </div>
             </div>

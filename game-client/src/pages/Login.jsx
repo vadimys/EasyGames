@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import auth from "../redux/actions/AuthActions";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, FormCheck, FormControl, FormGroup } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import auth from '../redux/actions/AuthActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Form, FormCheck, FormControl, FormGroup } from 'react-bootstrap';
 
 export default function LoginPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -26,7 +26,6 @@ export default function LoginPage() {
   useEffect(() => {
     dispatch(auth.logout());
   }, []);
-
 
   return (
     <div className="col-lg-8 offset-lg-2">
