@@ -1,6 +1,5 @@
 import { post } from '../../service/HttpRequests';
 import types from './constants';
-import history from '../../helpers/history';
 import alert from './AlertActions';
 
 const login = (username, password) => {
@@ -14,7 +13,6 @@ const login = (username, password) => {
     post('/signin', { username, password })
       .then(res => {
         dispatch(success(res));
-        history.push('/');
       })
       .catch(err => {
         dispatch(failure(err.toString()));
@@ -34,7 +32,6 @@ const register = (userData) => {
     post('/signup', { userData })
       .then(() => {
           dispatch(success());
-          history.push('/login');
           dispatch(alert.success('Registration successful'));
         })
       .catch(error => {

@@ -4,16 +4,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import history from './helpers/history';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <Router history={history}>
-                <App />
-            </Router>
-        </Provider>
-    </React.StrictMode>,
-    document.getElementById('root')
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
