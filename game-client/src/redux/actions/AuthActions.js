@@ -1,7 +1,7 @@
-import { post } from '../../utils/HttpRequests';
-import types from '../types';
-import history from '../../../History';
-import alert from '../../alert/actions/AlertActions';
+import { post } from '../../service/HttpRequests';
+import types from './constants';
+import history from '../../helpers/history';
+import alert from './AlertActions';
 
 const login = (username, password) => {
   function request(user) { return { type: types.LOGIN_REQUEST, user } }
@@ -11,7 +11,7 @@ const login = (username, password) => {
   return dispatch => {
     dispatch(request({ username }));
 
-    post('/login', { username, password })
+    post('/signin', { username, password })
       .then(res => {
         dispatch(success(res));
         history.push('/');
@@ -31,13 +31,13 @@ const register = (userData) => {
   return dispatch => {
     dispatch(request(userData));
 
-    post('/register', { userData })
-      .then(res => {
+    post('/signup', { userData })
+      .then(() => {
           dispatch(success());
           history.push('/login');
-          // dispatch(alert.success('Registration successful'));
-        },
-        error => {
+          dispatch(alert.success('Registration successful'));
+        })
+      .catch(error => {
           dispatch(failure(error.toString()));
           dispatch(alert.error(error.toString()));
         }

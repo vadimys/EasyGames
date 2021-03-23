@@ -9,16 +9,14 @@ function getHeaders(type) {
 function httpMethod(method, url, data, type = 'application/json') {
   const params = {
     method,
-    url: 'http://localhost:1307' + url,
     data,
+    url: 'http://localhost:1307' + url,
     headers: getHeaders(type)
   };
 
-  return axios(params)
-    .then(res => res)
-    .catch(error => {
-      console.error(`Server error: ${error}`)
-    });
+  return axios(params).then(res => res).catch(error => {
+    throw new Error(error.response.data.message)
+  });
 }
 
 export function get(url) {

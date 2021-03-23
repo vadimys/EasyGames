@@ -1,4 +1,4 @@
-import types from '../types';
+import types from './constants';
 
 export default {
   success,

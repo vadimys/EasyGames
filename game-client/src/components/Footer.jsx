@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, NavbarBrand } from 'react-bootstrap';
+import {Navbar} from 'react-bootstrap';
 
 const Footer = () => (
   <footer className='navbar-expand-md navbar-dark bg-dark fixed-bottom'>

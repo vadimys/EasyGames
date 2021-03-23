@@ -1,4 +1,4 @@
-import types from '../types';
+import types from '../actions/constants';
 
 let user = JSON.parse(localStorage.getItem('easy-games-user'));
 const initialState = user ? { loggedIn: true, user } : {};
