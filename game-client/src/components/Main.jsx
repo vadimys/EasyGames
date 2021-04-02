@@ -19,7 +19,7 @@ export default function App() {
           <Route exact path='/' component={pages.home} />
           <Route path='/games' component={pages.games} />
           <Route path='/history' component={pages.history} />
-          <Route path='/mygames' component={pages.games} />
+          <Route path='/favorites' component={pages.favorites} />
         </Switch>
       </div>
     </div>

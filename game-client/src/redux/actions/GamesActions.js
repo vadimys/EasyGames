@@ -2,13 +2,13 @@ import types from '../constants';
 import alert from './AlertActions';
 import { get, post } from '../../service/HttpRequests';
 
-const getAll = (id) => {
-  function request() {
-    return { type: types.GET_ALL_GAMES_REQUEST };
+const getAll = (games, id) => {
+  function request(games) {
+    return { type: types.GET_ALL_GAMES_REQUEST, games };
   }
 
-  function success(games) {
-    return { type: types.GET_ALL_GAMES_SUCCESS, games };
+  function success(games, favorites) {
+    return { type: types.GET_ALL_GAMES_SUCCESS, games, favorites};
   }
 
   function failure(error) {
@@ -16,29 +16,26 @@ const getAll = (id) => {
   }
 
   return dispatch => {
-    dispatch(request([]));
+    dispatch(request([])); // TODO: init this
 
     get('/games', id)
       .then(res => {
         let games = [];
+        let favorites = [];
 
         if (res.data && res.data.games) {
           games = res.data.games;
 
           if (res.data.favorite) {
-            games.forEach((data) => {
-              data.isFavorite = res.data.favorite.indexOf(data.id) !== -1;
-            });
+            games.forEach(data => res.data.favorite.indexOf(data.id) !== -1 && favorites.push(data.id));
           }
 
           if (res.data.like) {
-            games.forEach((data) => {
-              data.isLike = res.data.like.indexOf(data.id) !== -1;
-            });
+            games.forEach(data => data.isLike = res.data.like.indexOf(data.id) !== -1);
           }
         }
 
-        dispatch(success(games));
+        dispatch(success(games, favorites));
       })
       .catch(err => {
         dispatch(failure(err.toString()));
@@ -64,7 +61,7 @@ const updateGameType = (data) => {
       .catch(err => {
         console.log(err.toString());
       });
-    dispatch({ type: types.UPDATE_GAME_TYPE, data });
+    dispatch({ type: types.UPDATE_GAME_FAVORITES, data });
   };
 };
 
