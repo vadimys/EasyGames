@@ -2,20 +2,18 @@ import User from '../userModel';
 import bcrypt from 'bcryptjs';
 
 export default async function signin(req, res) {
-  User.findOne({
-    username: req.body.username,
-  }).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
+  const { username, password } = req.body;
 
-      return;
+  User.findOne({ username }).exec((err, user) => {
+    if (err) {
+      return res.status(500).send({ message: err });
     }
 
     if (!user) {
       return res.status(404).send({ message: 'User Not found.' });
     }
 
-    const isValid = bcrypt.compareSync(req.body.password, user.password);
+    const isValid = bcrypt.compareSync(password, user.password);
 
     if (!isValid) {
       return res.status(401).send({
@@ -24,11 +22,9 @@ export default async function signin(req, res) {
       });
     }
 
-    res.status(200).send({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      roles: ['user'],
-    });
+    res
+      .cookie('sid', user._id)
+      .status(200)
+      .send({ user });
   });
 }

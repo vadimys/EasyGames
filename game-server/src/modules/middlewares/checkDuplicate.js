@@ -1,5 +1,5 @@
-import User from '../../modules/auth/userModel';
-import types from '../auth/constants';
+import User from '../../modules/user/userModel';
+import types from '../user/constants';
 
 export default function checkDuplicate(req, res, next) {
   const { username, email } = req.body.userData;

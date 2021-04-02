@@ -11,7 +11,7 @@ const PORT = +process.env.PORT || 1307;
 const app = express();
 
 app.disable('x-powered-by');
-mongoConnection();
+mongoConnection(app);
 logger(app);
 parseResponse(app);
 cors(app);
