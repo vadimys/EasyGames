@@ -15,12 +15,16 @@ function httpMethod(method, url, data, type = 'application/json') {
   };
 
   return axios(params).then(res => res).catch(error => {
-    throw new Error(error.response.data.message)
+    throw new Error(error.response.data.message);
   });
 }
 
-export function get(url) {
-  return httpMethod('GET', url);
+export function get(url, data) {
+  if (data) {
+    url += `/${data}`
+  }
+
+  return httpMethod('GET', url, data);
 }
 
 export function post(url, data, type) {

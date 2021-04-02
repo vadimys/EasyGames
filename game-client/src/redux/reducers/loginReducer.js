@@ -1,20 +1,23 @@
-import types from '../actions/constants';
+import types from '../constants';
 
-let user = JSON.parse(localStorage.getItem('easy-games-user'));
-const initialState = user ? { loggedIn: true, user } : {};
+let userId = localStorage.getItem('easy-games-user-id');
+const initialState = userId ? {
+    isLoggedIn: true, user: {
+      _id: userId
+    }
+  } : {};
 
-export  default function authentication(state = initialState, action) {
+export function authentication(state = initialState, action) {
   switch (action.type) {
     case types.LOGIN_REQUEST:
       return {
         isLoggedIn: false,
-        loggingIn: true,
-        user: action.user
+        loggingIn: true
       };
     case types.LOGIN_SUCCESS:
       return {
         isLoggedIn: true,
-        loggedIn: true,
+        loggingIn: false,
         user: action.user
       };
     case types.LOGIN_FAILURE:
@@ -22,6 +25,6 @@ export  default function authentication(state = initialState, action) {
     case types.LOGOUT:
       return {};
     default:
-      return state
+      return state;
   }
 }

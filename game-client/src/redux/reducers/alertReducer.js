@@ -1,6 +1,6 @@
-import types from '../actions/constants';
+import types from '../constants';
 
-export default function alert(state = {}, action) {
+export function alert(state = {}, action) {
   switch (action.type) {
     case types.SUCCESS:
       return {
@@ -15,6 +15,6 @@ export default function alert(state = {}, action) {
     case types.CLEAR:
       return {};
     default:
-      return state
+      return state;
   }
 }

@@ -1,4 +1,4 @@
-import types from './constants';
+import types from '../constants';
 
 export default {
   success,
@@ -9,7 +9,6 @@ export default {
 function success(message) {
   return { type: types.SUCCESS, message };
 };
-
 
 function error(message) {
   return { type: types.ERROR, message };

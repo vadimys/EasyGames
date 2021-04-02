@@ -1,16 +1,31 @@
 body {
-  background-color: $color4;
+  background-color: #e9ecef;
+}
+
+.easy-game-main {
+  padding: 4rem 2rem;
+  border-radius: 0.3rem;
+}
+
+.game-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 10rem;
+}
+
+.thumbs-up {
+  color: dodgerblue;
+}
+
+.bookmark {
+  color: #dc3545;
 }
 
 img {
   max-width: 100%;
 }
 
-.card {
-  margin-bottom: 1rem;
-}
-
-.plate {
-  @extend .box-shadow;
-  background-color: white;
+h1, h2, h3 {
+  color: #16a3b8;
 }
