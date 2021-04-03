@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import auth from '../redux/actions/AuthActions';
 import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
+import alertActions from '../redux/actions/AlertActions';
 
 export function RegisterPage(props) {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ export function RegisterPage(props) {
   }, [alert.message]);
 
   useEffect(() => {
+    dispatch(alertActions.clear());
     dispatch(auth.logout());
   }, []);
 

@@ -17,7 +17,6 @@ export default async function signin(req, res) {
 
     if (!isValid) {
       return res.status(401).send({
-        accessToken: null,
         message: 'Invalid Password!',
       });
     }

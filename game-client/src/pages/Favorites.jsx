@@ -6,7 +6,7 @@ import parser from 'react-html-parser';
 
 export function Favorites() {
   const dispatch = useDispatch();
-  const { gamesGot, games } = useSelector(state => state.allGames);
+  const { isGot, list } = useSelector(state => state.allGames);
   const { isLoggedIn, user } = useSelector(state => state.authentication);
 
   useEffect(() => {
@@ -15,8 +15,8 @@ export function Favorites() {
 
   return (
     <>
-      {gamesGot ?
-        games.map((data) =>
+      {isGot ?
+        list.map((data) =>
           <Card key={data._id} className='mb-3' border='info'>
             <Card.Header as={'h3'} className='text-center'>
               <Card.Subtitle className='text-right'>

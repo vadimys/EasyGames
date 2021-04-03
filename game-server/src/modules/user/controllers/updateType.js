@@ -19,6 +19,6 @@ export default async function updateType(req, res) {
     doc[type] = newTypes;
     doc.save();
 
-    return res.status(200).send({ doc });
+    return res.status(200).send(doc[type]);
   });
 }

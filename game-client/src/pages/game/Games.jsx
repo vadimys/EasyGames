@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import gamesActions from '../redux/actions/GamesActions';
+import gamesActions from '../../redux/actions/GamesActions';
 import { Badge, Button, Card, Nav, Navbar, Spinner } from 'react-bootstrap';
-import parser from 'react-html-parser';
-import { GameControls } from './GameControls';
+import { UserControls } from './UserControls';
+import { MainInfo } from './MainInfo';
 
 export function Games() {
   const dispatch = useDispatch();
-  const { gamesGot, games } = useSelector(state => state.allGames);
+  const { isGot, list } = useSelector(state => state.allGames);
   const { isLoggedIn, user } = useSelector(state => state.authentication);
 
   useEffect(() => {
-    dispatch(gamesActions.getAll(games, user && user._id));
+    dispatch(gamesActions.getAll(list, user && user._id));
   }, []);
 
   return (
     <>
-      {gamesGot ?
-        games.map((data) =>
+      {isGot ?
+        list.map((data) =>
           <Card key={data._id} className='mb-3' border='info'>
             <Card.Header as={'h3'} className='text-center'>
               <Card.Subtitle className='text-right'>
@@ -25,21 +25,14 @@ export function Games() {
               </Card.Subtitle>
               {data.name}
             </Card.Header>
-            <Card.Body>
-              {data.players && <><Card.Title>{data.players.amount}</Card.Title>
-                {data.players.text && <Card.Text>{data.players.text}</Card.Text>}</>}
-              {data.description && <><Card.Title>Description</Card.Title>
-                <Card.Text>{parser(data.description)}</Card.Text></>}
-              {data.history && <><Card.Title>History</Card.Title>
-                <Card.Text>{parser(data.history)}</Card.Text></>}
-            </Card.Body>
+            <Card.Body>{data.info && <MainInfo data={data.info} />}</Card.Body>
             <Card.Footer>
               <Navbar>
                 <Nav className='mr-auto'>
                   <Button variant='info' disabled={!data.isAvailable}>
                     <i className='fas fa-gamepad mr-2'> </i>PLAY</Button>
                 </Nav>
-                {isLoggedIn && data.isAvailable && <GameControls id={data.id} />}
+                {isLoggedIn && data.isAvailable && <UserControls id={data.id} />}
               </Navbar>
             </Card.Footer>
           </Card>

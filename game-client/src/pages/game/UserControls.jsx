@@ -1,24 +1,26 @@
 import React from 'react';
-import types from '../redux/constants';
-import gamesActions from '../redux/actions/GamesActions';
+import types from '../../redux/constants';
+import gamesActions from '../../redux/actions/GamesActions';
 import { useDispatch, useSelector } from 'react-redux';
 
-export function GameControls({ id }) {
+export function UserControls({ id }) {
   const dispatch = useDispatch();
-  const { favorites } = useSelector(state => state.allGames);
+  const { favorite, like } = useSelector(state => state.allGames);
   const onIcon = (event) => {
     dispatch(gamesActions.updateGameType({
       id,
-      value: event.currentTarget.id === types.FAVORITE
-        ? favorites ? favorites.indexOf(id) === -1 : true
-        : favorites ? favorites.indexOf(id) === -1 : true,
+      value: event.currentTarget.classList[0] !== 'fas',
       type: event.currentTarget.id
     }));
   };
 
   const getIconType = (isFavorite = true) => {
-    if (isFavorite && favorites) {
-      return favorites.indexOf(id) !== -1 ? 'fas' : 'far';
+    if (isFavorite && favorite) {
+      return favorite.indexOf(id) !== -1 ? 'fas' : 'far';
+    }
+
+    if (!isFavorite && like) {
+      return like.indexOf(id) !== -1 ? 'fas' : 'far';
     }
 
     return 'far';

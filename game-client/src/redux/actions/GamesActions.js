@@ -7,8 +7,8 @@ const getAll = (games, id) => {
     return { type: types.GET_ALL_GAMES_REQUEST, games };
   }
 
-  function success(games, favorites) {
-    return { type: types.GET_ALL_GAMES_SUCCESS, games, favorites};
+  function success(data) {
+    return { type: types.GET_ALL_GAMES_SUCCESS, data };
   }
 
   function failure(error) {
@@ -20,22 +20,9 @@ const getAll = (games, id) => {
 
     get('/games', id)
       .then(res => {
-        let games = [];
-        let favorites = [];
+        const { games, favorite, like } = res.data;
 
-        if (res.data && res.data.games) {
-          games = res.data.games;
-
-          if (res.data.favorite) {
-            games.forEach(data => res.data.favorite.indexOf(data.id) !== -1 && favorites.push(data.id));
-          }
-
-          if (res.data.like) {
-            games.forEach(data => data.isLike = res.data.like.indexOf(data.id) !== -1);
-          }
-        }
-
-        dispatch(success(games, favorites));
+        dispatch(success({ list: games, favorite, like }));
       })
       .catch(err => {
         dispatch(failure(err.toString()));
@@ -45,23 +32,21 @@ const getAll = (games, id) => {
 };
 
 const updateGameType = (data) => {
+  function success(data) {
+    return { type: types.UPDATE_GAME_TYPE, data };
+  }
+
+  function failure() {
+    return { type: types.UPDATE_GAME_TYPE_FAILURE };
+  }
+
   return dispatch => {
+    const { value, id, type } = data;
     const userId = localStorage.getItem('easy-games-user-id');
 
-
-    post(`/update/${data.type}`, {
-      userId,
-      value: data.value,
-      gameId: data.id,
-      type: data.type
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err.toString());
-      });
-    dispatch({ type: types.UPDATE_GAME_FAVORITES, data });
+    post(`/update/${data.type}`, { userId, value, type, gameId: id })
+      .then(res => dispatch(success({ type, data: res.data })))
+      .catch(_ => dispatch(failure()));
   };
 };
 
