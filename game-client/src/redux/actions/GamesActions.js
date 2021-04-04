@@ -2,7 +2,7 @@ import types from '../constants';
 import alert from './AlertActions';
 import { get, post } from '../../service/HttpRequests';
 
-const getAll = (games, id) => {
+const getAll = (id) => {
   function request(games) {
     return { type: types.GET_ALL_GAMES_REQUEST, games };
   }

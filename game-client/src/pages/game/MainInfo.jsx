@@ -1,16 +1,19 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import parser from 'react-html-parser';
+import gameData from '../../helpers/GameData';
 
-export function MainInfo({ data }) {
+export default function MainInfo({ id }) {
+  const info = gameData.getMainInfo(id);
+
   return (
     <>
-      {/*{data.players && <><Card.Title>{data.players.amount}</Card.Title>
-        {data.players.text && <Card.Text>{data.players.text}</Card.Text>}</>}
-      {data.description && <><Card.Title>Description</Card.Title>
-        <Card.Text>{parser(data.description)}</Card.Text></>}
-      {data.history && <><Card.Title>History</Card.Title>
-        <Card.Text>{parser(data.history)}</Card.Text></>}*/}
+      {info.players && <><Card.Title>{info.players.amount}</Card.Title>
+        {info.players.text && <Card.Text>{info.players.text}</Card.Text>}</>}
+      {info.description && <><Card.Title>Description</Card.Title>
+        <Card.Text>{parser(info.description)}</Card.Text></>}
+      {info.history && <><Card.Title>History</Card.Title>
+        <Card.Text>{parser(info.history)}</Card.Text></>}
     </>
   );
 }

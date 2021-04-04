@@ -1,11 +1,12 @@
 import React from 'react';
-import types from '../../redux/constants';
 import gamesActions from '../../redux/actions/GamesActions';
 import { useDispatch, useSelector } from 'react-redux';
+import userControlData from '../../helpers/UserControlData';
+import types from '../../redux/constants';
 
-export function UserControls({ id }) {
+export function UserControls({ id, isFull }) {
   const dispatch = useDispatch();
-  const { favorite, like } = useSelector(state => state.allGames);
+  const { favorite, like } = useSelector(state => state.games);
   const onIcon = (event) => {
     dispatch(gamesActions.updateGameType({
       id,
@@ -14,7 +15,9 @@ export function UserControls({ id }) {
     }));
   };
 
-  const getIconType = (isFavorite = true) => {
+  const getIconType = (controlId) => {
+    const isFavorite = controlId === types.FAVORITE;
+
     if (isFavorite && favorite) {
       return favorite.indexOf(id) !== -1 ? 'fas' : 'far';
     }
@@ -28,18 +31,16 @@ export function UserControls({ id }) {
 
   return (
     <>
-      <span className='bookmark'>
-        <i id={types.FAVORITE}
-           className={`${getIconType()} fa-bookmark fa-2x mr-5`}
+      {userControlData(isFull).map((data) => {
+        const {name, type, mr} = data;
+
+        return <span key={name} className={name}>
+        <i id={type}
+           className={`${getIconType(type)} fa-${name} fa-2x ${mr}`}
            onClick={onIcon}>
         </i>
-      </span>
-      <span className='thumbs-up'>
-        <i id={types.LIKE}
-           className={`${getIconType(false)} fa-thumbs-up fa-2x mr-2`}
-           onClick={onIcon}>
-        </i>
-      </span>
+      </span>;
+      })}
     </>
   );
 }

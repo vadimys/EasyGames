@@ -7,7 +7,7 @@ const initialState = {
   like: []
 };
 
-export function allGames(state = initialState, action) {
+export function games(state = initialState, action) {
   switch (action.type) {
     case types.GET_ALL_GAMES_REQUEST:
       return {
