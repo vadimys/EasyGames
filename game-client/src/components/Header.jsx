@@ -2,20 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Dropdown, DropdownButton, Nav, Navbar } from 'react-bootstrap';
 import logo from '../styles/img/logo.svg';
-import { useHistory } from 'react-router';
 import auth from '../redux/actions/AuthActions';
 import Pages from '../pages';
 
 export default function Header() {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const { isLoggedIn } = useSelector(state => state.authentication);
+  const { isLoggedIn } = useSelector(state => state.login);
   const { registered } = useSelector(state => state.registration);
   const onLogout = () => {
-    dispatch(auth.logout());
-    history.push('/');
+    dispatch(auth.onLogOut());
   };
 
   useEffect(() => {
@@ -38,8 +35,8 @@ export default function Header() {
                           menuAlign='right'
                           variant='outline-info'
                           title={<><i className='fas fa-user mr-2' />{'Menu'}</>}>
-            <Dropdown.Item><i className='fas fa-bookmark mr-2' /> Favorites</Dropdown.Item>
-            <Dropdown.Item><i className='fas fa-cog mr-2' />Settings</Dropdown.Item>
+            <Dropdown.Item href='/favorites'><i className='fas fa-bookmark mr-2' /> Favorites</Dropdown.Item>
+            <Dropdown.Item href='/settings'><i className='fas fa-cog mr-2' />Settings</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={onLogout}><i className='fas fa-sign-out-alt mr-2' /> Log out</Dropdown.Item>
           </DropdownButton>

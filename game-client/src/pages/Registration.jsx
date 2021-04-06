@@ -23,7 +23,7 @@ export function RegisterPage(props) {
     setSubmitted(true);
 
     if (user.email && user.username && user.password) {
-      dispatch(auth.register({
+      dispatch(auth.onRegister({
         username: user.username,
         email: user.email,
         password: user.password
@@ -48,7 +48,7 @@ export function RegisterPage(props) {
 
   useEffect(() => {
     dispatch(alertActions.clear());
-    dispatch(auth.logout());
+    dispatch(auth.onLogOut());
   }, []);
 
   useEffect(() => {

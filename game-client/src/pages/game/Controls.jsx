@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import gameInfo from '../../helpers/GameData';
 
 export default function Controls({ id }) {
-  const { isLoggedIn } = useSelector(state => state.authentication);
+  const { isLoggedIn } = useSelector(state => state.login);
   const isAvailable = gameInfo.isAvailable(id);
 
   return (

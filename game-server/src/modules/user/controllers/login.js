@@ -24,6 +24,10 @@ export default async function signin(req, res) {
     res
       .cookie('sid', user._id)
       .status(200)
-      .send({ user });
+      .send({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      });
   });
 }

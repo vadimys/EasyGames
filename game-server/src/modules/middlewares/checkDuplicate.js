@@ -2,7 +2,7 @@ import User from '../../modules/user/userModel';
 import types from '../user/constants';
 
 export default function checkDuplicate(req, res, next) {
-  const { username, email } = req.body.userData;
+  const { username, email } = req.body.data;
   const onErrors = (err, user, isUser = true) => {
     const message = isUser ? types.ERR_USER_EXIST : types.ERR_EMAIL_EXIST;
     const onError = (code, message) => res.status(code).send({ message });

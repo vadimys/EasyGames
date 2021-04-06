@@ -1,71 +1,27 @@
-import { post } from '../../service/HttpRequests';
 import types from '../constants';
-import alert from './AlertActions';
 
-const login = (username, password) => {
-  function request(user) {
-    return { type: types.LOGIN_REQUEST, user };
-  }
+const onLogin = ({ username, password }) => ({ type: types.LOGIN, username, password });
+const loginRequest = () => ({ type: types.LOGIN_REQUEST });
+const loginSuccess = (user) => ({ type: types.LOGIN_SUCCESS, user });
+const loginError = (error) => ({ type: types.LOGIN_ERROR, error });
 
-  function success(user) {
-    return { type: types.LOGIN_SUCCESS, user };
-  }
+const onRegister = (data) => ({ type: types.REGISTER, data });
+const registerRequest = (data) => ({ type: types.REGISTER_REQUEST, data });
+const registerSuccess = (user) => ({ type: types.REGISTER_SUCCESS, user });
+const registerError = (error) => ({ type: types.REGISTER_ERROR, error });
 
-  function failure(error) {
-    return { type: types.LOGIN_FAILURE, error };
-  }
-
-  return dispatch => {
-    dispatch(request({ username }));
-
-    post('/signin', { username, password })
-      .then(res => {
-        dispatch(success(res.data.user));
-        localStorage.setItem('easy-games-user-id', res.data.user._id);
-      })
-      .catch(err => {
-        dispatch(failure(err.toString()));
-        dispatch(alert.error(err.toString()));
-      });
-  };
-};
-
-const register = (userData) => {
-  function request(user) {
-    return { type: types.REGISTER_REQUEST, user };
-  }
-
-  function success(user) {
-    return { type: types.REGISTER_SUCCESS, user };
-  }
-
-  function failure(error) {
-    return { type: types.REGISTER_FAILURE, error };
-  }
-
-  return dispatch => {
-    dispatch(request(userData));
-
-    post('/signup', { userData })
-      .then(() => {
-        dispatch(success());
-        dispatch(alert.success('Registration successful'));
-      })
-      .catch(error => {
-          dispatch(failure(error.toString()));
-          dispatch(alert.error(error.toString()));
-        }
-      );
-  };
-};
-
-const logout = () => {
-  localStorage.removeItem('easy-games-user-id');
-  return { type: types.LOGOUT };
-};
+const onLogOut = () => ({ type: types.LOGOUT });
 
 export default {
-  login,
-  register,
-  logout
+  onLogin,
+  loginRequest,
+  loginSuccess,
+  loginError,
+
+  onRegister,
+  registerRequest,
+  registerSuccess,
+  registerError,
+
+  onLogOut
 };

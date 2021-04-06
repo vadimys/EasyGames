@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import { authentication } from './loginReducer';
+import { login } from './loginReducer';
 import { registration } from './registrationReducer';
 import { alert } from './alertReducer';
 import { games } from './gamesReducer';
 
 const rootReducer = combineReducers({
-  authentication,
+  login,
   registration,
   alert,
   games

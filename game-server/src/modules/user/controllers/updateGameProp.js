@@ -1,6 +1,6 @@
 import User from '../userModel';
 
-export default async function updateType(req, res) {
+export default async function updateGameProp(req, res) {
   const { userId, value, type, gameId } = req.body;
 
   User.findOne({ _id: userId }, (err, doc) => {

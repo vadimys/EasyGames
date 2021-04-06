@@ -1,20 +1,21 @@
 import React from 'react';
-import gamesActions from '../../redux/actions/GamesActions';
+import gameActions from '../../redux/actions/GameActions';
 import { useDispatch, useSelector } from 'react-redux';
 import userControlData from '../../helpers/UserControlData';
 import types from '../../redux/constants';
 
 export function UserControls({ id, isFull }) {
   const dispatch = useDispatch();
-  const { favorite, like } = useSelector(state => state.games);
+  const { user } = useSelector(state => state.login);
+  const { list, favorite, like } = useSelector(state => state.games);
   const onIcon = (event) => {
-    dispatch(gamesActions.updateGameType({
+    dispatch(gameActions.updateGameProp({
       id,
       value: event.currentTarget.classList[0] !== 'fas',
-      type: event.currentTarget.id
+      type: event.currentTarget.id,
+      userId: user.id
     }));
   };
-
   const getIconType = (controlId) => {
     const isFavorite = controlId === types.FAVORITE;
 
@@ -32,7 +33,7 @@ export function UserControls({ id, isFull }) {
   return (
     <>
       {userControlData(isFull).map((data) => {
-        const {name, type, mr} = data;
+        const { name, type, mr } = data;
 
         return <span key={name} className={name}>
         <i id={type}

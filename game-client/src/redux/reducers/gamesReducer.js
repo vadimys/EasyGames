@@ -9,26 +9,36 @@ const initialState = {
 
 export function games(state = initialState, action) {
   switch (action.type) {
-    case types.GET_ALL_GAMES_REQUEST:
+    case types.GET_GAMES_REQUEST:
       return {
         ...state,
         isGot: false
       };
-    case types.GET_ALL_GAMES_SUCCESS:
-      const { list, favorite, like } = action.data;
+    case types.GET_GAMES_SUCCESS:
+      const { list } = action;
 
-      return { isGot: true, list, favorite, like };
-    case types.UPDATE_GAME_TYPE:
+      return {
+        ...state,
+        isGot: true,
+        list
+      };
+    case types.UPDATE_GAME_PROP_SUCCESS:
       const { data, type } = action.data;
 
       return {
         ...state,
         [type]: data
       };
-    case types.UPDATE_GAME_TYPE_FAILURE:
-      return {...state};
-    case types.GET_ALL_GAMES_FAILURE:
-      return {...state};
+    case types.GET_GAMES_PROPS_SUCCESS:
+      const { favorite, like } = action.data;
+
+      return { ...state, favorite, like };
+    case types.UPDATE_GAME_PROP_ERROR:
+      return { ...state };
+    case types.GET_GAMES_PROPS_ERROR:
+      return { ...state };
+    case types.GET_GAMES_ERROR:
+      return { ...state };
     default:
       return state;
   }

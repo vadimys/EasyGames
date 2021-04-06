@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export default async function signup(req, res) {
-  const { username, email, password } = req.body.userData;
+  const { username, email, password } = req.body.data;
   const user = new User({ username, email, password: bcrypt.hashSync(password, 10) });
 
   user.save((err, user) => {

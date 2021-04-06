@@ -7,13 +7,13 @@ export default {
 };
 
 function success(message) {
-  return { type: types.SUCCESS, message };
+  return { type: types.SUCCESS_ACTION, message };
 };
 
 function error(message) {
-  return { type: types.ERROR, message };
+  return { type: types.ERROR_ACTION, message };
 }
 
 function clear() {
-  return { type: types.CLEAR };
+  return { type: types.CLEAR_ACTION };
 }

@@ -12,7 +12,7 @@ export function LoginPage(props) {
   const [inputs, setInputs] = useState({ username: '', password: '' });
   const [showAlert, setShowAlert] = useState(false);
   const { username, password } = inputs;
-  const { loggingIn, isLoggedIn } = useSelector(state => state.authentication);
+  const { loggingIn, isLoggedIn } = useSelector(state => state.login);
   const { alert } = useSelector(state => state);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +24,7 @@ export function LoginPage(props) {
 
     setSubmitted(true);
     if (username && password) {
-      dispatch(auth.login(username, password));
+      dispatch(auth.onLogin({ username, password }));
     }
   };
   const onShowPassword = () => setShowPassword(!showPassword);
@@ -46,7 +46,7 @@ export function LoginPage(props) {
 
   useEffect(() => {
     dispatch(alertActions.clear());
-    dispatch(auth.logout());
+    dispatch(auth.onLogOut());
   }, []);
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export function LoginPage(props) {
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
-                <i className='fas fa-key'/>
+                <i className='fas fa-key' />
               </InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl type={showPassword ? 'text' : 'password'} name='password' placeholder='Password'
