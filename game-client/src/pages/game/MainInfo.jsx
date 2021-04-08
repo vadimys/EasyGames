@@ -8,8 +8,7 @@ export default function MainInfo({ id }) {
 
   return (
     <>
-      {info.players && <><Card.Title>{info.players.amount}</Card.Title>
-        {info.players.text && <Card.Text>{info.players.text}</Card.Text>}</>}
+      {info.general && <Card.Title className='text-center'>{info.general}</Card.Title>}
       {info.description && <><Card.Title>Description</Card.Title>
         <Card.Text>{parser(info.description)}</Card.Text></>}
       {info.history && <><Card.Title>History</Card.Title>

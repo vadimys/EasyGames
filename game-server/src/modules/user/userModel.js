@@ -9,6 +9,12 @@ const schema = new Schema(
     password: String,
     favorite: Array,
     like: Array,
+    score: [
+      {
+        type: Number,
+        value: Number,
+      },
+    ],
   },
   { timestamps: {} },
 );

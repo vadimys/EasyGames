@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import auth from '../redux/actions/AuthActions';
+import auth from '../../redux/actions/AuthActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
-import alertActions from '../redux/actions/AlertActions';
+import alertActions from '../../redux/actions/AlertActions';
 
 export function LoginPage(props) {
   const dispatch = useDispatch();

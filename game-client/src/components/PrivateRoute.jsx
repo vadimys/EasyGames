@@ -1,15 +1,15 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import {useSelector} from "react-redux";
+import { Redirect, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-export default function PrivateRouter ({ component: Component, ...rest }) {
-    // const loggingIn = useSelector(state => state.login.loggingIn);
+export default function PrivateRouter({ component: Component, ...rest }) {
+  const { isLoggedIn } = useSelector(state => state.login);
 
-    return (<></>
-        /*<Route {...rest} render={props => (
-            loggingIn
-                ? <Component {...props} />
-                : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-        )} />*/
-    );
+  return (
+    <Route {...rest} render={props => (
+      isLoggedIn
+        ? <Component {...props} />
+        : <Redirect to={{ pathname: '/games', state: { from: props.location } }} />
+    )} />
+  );
 }

@@ -4,16 +4,23 @@ import { Button, Dropdown, DropdownButton, Nav, Navbar } from 'react-bootstrap';
 import logo from '../styles/img/logo.svg';
 import auth from '../redux/actions/AuthActions';
 import Pages from '../pages';
+import { useHistory } from 'react-router-dom';
 
 export default function Header() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const { isLoggedIn } = useSelector(state => state.login);
   const { registered } = useSelector(state => state.registration);
-  const onLogout = () => {
-    dispatch(auth.onLogOut());
-  };
+  const onLogout = () => dispatch(auth.onLogOut());
+
+  useEffect(() => history.listen((data) => {
+    if (data.pathname === '/') {
+      showRegister && setShowRegister(false);
+      showLogin && setShowLogin(false);
+    }
+  }), []);
 
   useEffect(() => {
     registered && setShowLogin(true);
@@ -44,8 +51,8 @@ export default function Header() {
           <Button className='mr-2' variant='outline-light' onClick={() => setShowLogin(true)}>Log in</Button>
           <Button variant='outline-info' onClick={() => setShowRegister(true)}>Sign up</Button>
         </>}
-        {showLogin && <Pages.Login show={true} onHide={() => setShowLogin(false)} />}
-        {showRegister && <Pages.Registration show={true} onHide={() => setShowRegister(false)} />}
+        {showLogin && <Pages.Login show onHide={() => setShowLogin(false)} />}
+        {showRegister && <Pages.Registration show onHide={() => setShowRegister(false)} />}
       </Navbar>
     </div>
   );

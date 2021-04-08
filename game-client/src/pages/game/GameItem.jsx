@@ -5,7 +5,7 @@ import gameData from '../../helpers/GameData';
 import Controls from './Controls';
 import MainInfo from './MainInfo';
 
-export function Game({ id }) {
+export function GameItem({ id }) {
   return (
     <Card className='mb-3' border='info'>
       <Card.Header as={'h3'} className='text-center'><Badges id={id} />{gameData.getName(id)}</Card.Header>

@@ -1,11 +1,27 @@
 import { useSelector } from 'react-redux';
 
+function getDimensions(id) {
+  let dimensions = [{
+    width: 3,
+    height: 3
+  }];
+  const { list } = useSelector(state => state.games);
+
+  list.forEach(data => {
+    if (data.id === Number(id)) {
+      dimensions = data.dimensions;
+    }
+  });
+
+  return dimensions;
+}
+
 function getName(id) {
   let name = '';
   const { list } = useSelector(state => state.games);
 
   list.forEach(data => {
-    if (data.id === id) {
+    if (data.id === Number(id)) {
       name = data.name;
     }
   });
@@ -18,7 +34,7 @@ function getMainInfo(id) {
   const { list } = useSelector(state => state.games);
 
   list.forEach(data => {
-    if (data.id === id) {
+    if (data.id === Number(id)) {
       info = data.info;
     }
   });
@@ -31,7 +47,7 @@ function isAvailable(id) {
   const { list } = useSelector(state => state.games);
 
   list.forEach(data => {
-    if (data.id === id) {
+    if (data.id === Number(id)) {
       isAvailable = data.isAvailable;
     }
   });
@@ -39,8 +55,23 @@ function isAvailable(id) {
   return isAvailable;
 }
 
+function isExclusive(id) {
+  let isExclusive = false;
+  const { list } = useSelector(state => state.games);
+
+  list.forEach(data => {
+    if (data.id === Number(id)) {
+      isExclusive = data.isExclusive;
+    }
+  });
+
+  return isExclusive;
+}
+
 export default {
   getName,
   isAvailable,
-  getMainInfo
-}
+  isExclusive,
+  getMainInfo,
+  getDimensions
+};

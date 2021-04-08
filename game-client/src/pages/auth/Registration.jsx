@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import auth from '../redux/actions/AuthActions';
+import auth from '../../redux/actions/AuthActions';
 import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
-import alertActions from '../redux/actions/AlertActions';
+import alertActions from '../../redux/actions/AlertActions';
+import { useHistory } from 'react-router-dom';
 
 export function RegisterPage(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [showDlg, setShowDlg] = useState(props.show);
   const [showAlert, setShowAlert] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -115,7 +117,7 @@ export function RegisterPage(props) {
             {registering && <span className='spinner-border spinner-border-sm mr-1'> </span>}
             Register
           </Button>
-          <Button variant='secondary' href='/'>Cancel</Button>
+          <Button variant='secondary' onClick={onHideDialog}>Cancel</Button>
         </Modal.Footer>
       </Form>
       {showAlert ? <div className={`alert ${alert.type}`}>{alert.message}</div> : null}

@@ -1,13 +1,14 @@
 import { Button, Card, Nav, Navbar, Modal } from 'react-bootstrap';
 import gameData from '../../helpers/GameData';
-import gameInfo from '../../helpers/GameData';
 import React, { useState } from 'react';
 import { UserControls } from '../game/UserControls';
 import MainInfo from '../game/MainInfo';
+import { useHistory } from 'react-router-dom';
 
 export function Favorite({ id }) {
+  const history = useHistory();
   const [showInfo, setShowInfo] = useState(false);
-  const isAvailable = gameInfo.isAvailable(id);
+  const isAvailable = gameData.isAvailable(id);
 
   return (
     <>{isAvailable ?
@@ -16,7 +17,7 @@ export function Favorite({ id }) {
           <Nav className='mr-auto'>
             <h3>{gameData.getName(id)}</h3>
           </Nav>
-          <Button variant='info' className='mr-3'>
+          <Button onClick={() => history.push(`/game/${id}`)} variant='info' className='mr-3'>
             <i className='fas fa-gamepad mr-2'> </i>Play
           </Button>
           <Button variant='info' className='mr-3' onClick={() => setShowInfo(true)}>
