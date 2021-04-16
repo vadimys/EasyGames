@@ -1,19 +1,29 @@
 import { useSelector } from 'react-redux';
 
-function getDimensions(id) {
-  let dimensions = [{
-    width: 3,
-    height: 3
-  }];
+function getData(id) {
+  let data = null;
   const { list } = useSelector(state => state.games);
 
-  list.forEach(data => {
-    if (data.id === Number(id)) {
-      dimensions = data.dimensions;
+  list.forEach(item => {
+    if (item.id === Number(id) && item.data) {
+      data = item.data;
     }
   });
 
-  return dimensions;
+  return data;
+}
+
+function getType(id) {
+  let type = -1;
+  const { list } = useSelector(state => state.games);
+
+  list.forEach(item => {
+    if (item.id === Number(id)) {
+      type = item.type;
+    }
+  });
+
+  return type;
 }
 
 function getName(id) {
@@ -73,5 +83,6 @@ export default {
   isAvailable,
   isExclusive,
   getMainInfo,
-  getDimensions
+  getData,
+  getType
 };

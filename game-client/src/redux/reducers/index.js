@@ -3,12 +3,14 @@ import { login } from './loginReducer';
 import { registration } from './registrationReducer';
 import { alert } from './alertReducer';
 import { games } from './gamesReducer';
+import { game } from './gameReducer';
 
 const rootReducer = combineReducers({
   login,
   registration,
   alert,
-  games
+  games,
+  game
 });
 
 export default rootReducer;

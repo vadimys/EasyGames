@@ -6,11 +6,13 @@ export default async function signin(req, res) {
 
   User.findOne({ username }).exec((err, user) => {
     if (err) {
-      return res.status(500).send({ message: err });
+      res.status(500).send({ message: err });
+
+      return;
     }
 
     if (!user) {
-      return res.status(404).send({ message: 'User Not found.' });
+      return res.status(404).send({ message: 'User not found' });
     }
 
     const isValid = bcrypt.compareSync(password, user.password);

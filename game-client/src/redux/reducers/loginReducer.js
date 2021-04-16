@@ -23,11 +23,11 @@ export function login(state = initialState, action) {
         user: action.user
       };
     case types.LOGIN_ERROR:
-      return {};
+      return {...initialState};
     case types.LOGOUT:
       localStorage.removeItem('easy-games-user-id');
 
-      return {};
+      return {...initialState};
     default:
       return state;
   }

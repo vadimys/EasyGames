@@ -14,7 +14,7 @@ export function* login(data) {
     yield getGamesProps({ id: res.data.id });
   } catch (error) {
     yield put(alert.error(error.toString()));
-    yield put(auth.loginError(error.toString()));
+    yield put(auth.loginError());
   }
 }
 
@@ -25,6 +25,6 @@ export function* register(data) {
     yield put(auth.registerSuccess());
   } catch (error) {
     yield put(alert.error(error.toString()));
-    yield put(auth.registerError(error.toString()));
+    yield put(auth.registerError());
   }
 }

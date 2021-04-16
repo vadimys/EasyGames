@@ -1,4 +1,4 @@
-import Game from '../game/gameModel';
+import Game from '../data/game/gameModel';
 
 export default function setGameLike(req, res, next) {
   const { gameId, value } = req.body;

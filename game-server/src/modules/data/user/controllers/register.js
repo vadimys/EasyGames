@@ -7,13 +7,9 @@ export default async function signup(req, res) {
   const user = new User({ username, email, password: bcrypt.hashSync(password, 10) });
 
   user.save((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-
-      return;
-    }
+    if (err) return res.status(500).send({ message: err });
 
     user.id = new mongoose.Types.ObjectId();
-    res.send({ message: 'User was successfully registered!' });
+    res.status(200).send({ message: 'User was successfully registered!' });
   });
 }

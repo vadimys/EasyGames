@@ -17,7 +17,7 @@ export function LoginPage(props) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setInputs(inputs => ({ ...inputs, [name]: value }));
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,13 +39,14 @@ export function LoginPage(props) {
 
       setShowAlert(true);
 
-      return () => clearTimeout(timer);
+      return () => {
+        dispatch(alertActions.clear());
+        clearTimeout(timer);
+      };
     }
   }, [alert.message]);
 
-
   useEffect(() => {
-    dispatch(alertActions.clear());
     dispatch(auth.onLogOut());
   }, []);
 
@@ -54,52 +55,82 @@ export function LoginPage(props) {
   }, [isLoggedIn]);
 
   return (
-    <Modal show={showDlg} size='sm' aria-labelledby='contained-modal-title-vcenter' centered onHide={onHideDialog}>
+    <Modal
+      show={showDlg}
+      size="sm"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      onHide={onHideDialog}
+    >
       <Modal.Header closeButton>
-        <Modal.Title id='contained-modal-title-vcenter' className='h2 text-info'>
+        <Modal.Title id="contained-modal-title-vcenter" className="h2 text-info">
           Login
         </Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          <InputGroup className='mb-3'>
+          <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text>
-                <i className='fas fa-user' />
+                <i className="fas fa-user" />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl type='text' name='username' placeholder='Username'
-                         value={username} onChange={handleChange} autoFocus
-                         className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
-            {submitted && !username &&
-            <FormControl.Feedback type='invalid'>Username is required</FormControl.Feedback>}
+            <FormControl
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={username}
+              onChange={handleChange}
+              autoFocus
+              className={'form-control' + (submitted && !username ? ' is-invalid' : '')}
+            />
+            {submitted && !username && (
+              <FormControl.Feedback type="invalid">
+                Username is required
+              </FormControl.Feedback>
+            )}
           </InputGroup>
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
-                <i className='fas fa-key' />
+                <i className="fas fa-key" />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl type={showPassword ? 'text' : 'password'} name='password' placeholder='Password'
-                         value={password} onChange={handleChange}
-                         className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
+            <FormControl
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Password"
+              value={password}
+              onChange={handleChange}
+              className={'form-control' + (submitted && !password ? ' is-invalid' : '')}
+            />
             <InputGroup.Append>
               <InputGroup.Text>
-                <i className={`fas fa-eye${showPassword ? '' : '-slash'}`} onClick={onShowPassword} />
+                <i
+                  className={`fas fa-eye${showPassword ? '' : '-slash'}`}
+                  onClick={onShowPassword}
+                />
               </InputGroup.Text>
             </InputGroup.Append>
-            {submitted && !password &&
-            <FormControl.Feedback type='invalid'>Password is required</FormControl.Feedback>}
-            {submitted && showAlert &&
-            <FormControl.Feedback type='invalid'>{alert.message}</FormControl.Feedback>}
+            {submitted && !password && (
+              <FormControl.Feedback type="invalid">
+                Password is required
+              </FormControl.Feedback>
+            )}
+            {submitted && showAlert && (
+              <FormControl.Feedback type="invalid">{alert.message}</FormControl.Feedback>
+            )}
           </InputGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='primary' type='submit'>
-            {loggingIn && <span className='spinner-border spinner-border-sm mr-1' />}
+          <Button variant="primary" type="submit">
+            {loggingIn && <span className="spinner-border spinner-border-sm mr-1" />}
             OK
           </Button>
-          <Button variant='secondary' onClick={onHideDialog}>Cancel</Button>
+          <Button variant="secondary" onClick={onHideDialog}>
+            Cancel
+          </Button>
+          ;
         </Modal.Footer>
       </Form>
       {showAlert && <div className={`alert ${alert.type}`}>{alert.message}</div>}

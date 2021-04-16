@@ -1,4 +1,4 @@
-import User from '../../modules/user/userModel';
+import User from '../data/user/userModel';
 
 export default function getGamesByTypes(req, res, next) {
   if (req.params && req.params.id) {

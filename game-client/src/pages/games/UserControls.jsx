@@ -1,17 +1,17 @@
-import React from 'react';
-import gameActions from '../../redux/actions/GameActions';
-import { useDispatch, useSelector } from 'react-redux';
-import userControlData from '../../helpers/UserControlData';
-import types from '../../redux/constants';
+import React from "react";
+import gameActions from "../../redux/actions/GameActions";
+import { useDispatch, useSelector } from "react-redux";
+import userControlData from "../../helpers/UserControlData";
+import types from "../../redux/constants";
 
 export function UserControls({ id, isFull }) {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.login);
-  const { list, favorite, like } = useSelector(state => state.games);
+  const { favorite, like } = useSelector(state => state.games);
   const onIcon = (event) => {
     dispatch(gameActions.updateGameProp({
       id,
-      value: event.currentTarget.classList[0] !== 'fas',
+      value: event.currentTarget.classList[0] !== "fas",
       type: event.currentTarget.id,
       userId: user.id
     }));
@@ -19,15 +19,15 @@ export function UserControls({ id, isFull }) {
   const getIconType = (controlId) => {
     const isFavorite = controlId === types.FAVORITE;
 
-    if (isFavorite && favorite) {
-      return favorite.indexOf(id) !== -1 ? 'fas' : 'far';
-    }
-
-    if (!isFavorite && like) {
-      return like.indexOf(id) !== -1 ? 'fas' : 'far';
-    }
-
-    return 'far';
+    return isFavorite && favorite
+      ? favorite.indexOf(id) !== -1
+        ? "fas"
+        : "far"
+      : (!isFavorite && like)
+        ? like.indexOf(id) !== -1
+          ? "fas"
+          : "far"
+        : "far";
   };
 
   return (

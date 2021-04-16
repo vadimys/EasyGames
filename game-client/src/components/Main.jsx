@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import alertActions from './../redux/actions/AlertActions';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import pages from './../pages';
+import GameRoute from './GameRoute';
 import PrivateRoute from './PrivateRoute';
 
 export default function App() {
@@ -10,7 +11,6 @@ export default function App() {
   const history = useHistory();
 
   useEffect(() => history.listen((data) => {
-    console.log(data);
     dispatch(alertActions.clear());
   }), []);
 
@@ -20,7 +20,7 @@ export default function App() {
         <Route exact path='/' component={pages.home} />
         <Route path='/games' component={pages.games} />
         <Route path='/history' component={pages.history} />
-        <Route path='/game/:id' component={pages.game} />
+        <GameRoute path='/game' component={pages.game} />
         <PrivateRoute path='/favorites' component={pages.favorites} />
         <PrivateRoute path='/settings' component={pages.settings} />
       </Switch>
