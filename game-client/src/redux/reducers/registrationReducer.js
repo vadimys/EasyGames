@@ -12,6 +12,7 @@ export function registration(state = {}, action) {
         registered: true,
         registering: false
       };
+    case types.LOGOUT:
     case types.REGISTER_ERROR:
       return {};
     default:

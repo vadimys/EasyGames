@@ -41,7 +41,6 @@ export default function PlayArea() {
       return data;
     }
   };
-  const onFinishGame = () => dispatch(gameActions.finishGame(sessionId));
   const handleClick = (index) => {
     dispatch(gameActions.onGameAction({
       sessionId,
@@ -50,15 +49,13 @@ export default function PlayArea() {
   };
 
   useEffect(() => {
-    !started && dispatch(gameActions.getGamesByUserId({
-      userId: user && user.id
-    }));
+    !started && dispatch(gameActions.getGamesByUserId({ userId: user && user.id }));
     // enablePrevent();
     return () => {
       // disablePrevent();
-      onFinishGame();
+      sessionId && dispatch(gameActions.finishGame(sessionId));
     };
-  });
+  }, [dispatch, sessionId, started, user]);
 
   return (
     <> {started ? <>

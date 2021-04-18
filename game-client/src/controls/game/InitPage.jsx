@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Col, Form, Modal } from "react-bootstrap";
 import getGameData from "../../helpers/getGameData";
 import { useDispatch, useSelector } from "react-redux";
 import gameActions from "../../redux/actions/GameActions";
 import { useHistory } from "react-router-dom";
 
-export default function InitPage(props) {
+export default function InitPage({ id, onInit }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [show, setShow] = useState(props.show);
   const [dimension, setDimension] = useState(0);
   const { user } = useSelector(state => state.login);
   const { starting, started } = useSelector(state => state.game);
-  const data = getGameData({ id: props.id, type: "data" });
+  const data = getGameData({ id, type: "data" });
   const onChange = (event) => {
     const { id, value } = event.currentTarget;
 
@@ -20,34 +19,18 @@ export default function InitPage(props) {
       setDimension(value);
     }
   };
-  const onHide = () => {
-    setShow(false);
-    props.onHide();
-    !started && dispatch(gameActions.startGameCanceled());
-  };
-  const onStart = () => {
-    dispatch(gameActions.startGame({
-      id: props.id,
-      userId: user && user.id,
-      dimension
-    }));
-  };
-  // TODO: extend for all games
-  const hasParams = () => data.dimension && data.dimension.length > 1;
+  const hasParams = useCallback(() => data.dimension && data.dimension.length > 1, [data.dimension]);
+  const onStart = useCallback(() => {
+    dispatch(gameActions.startGame({ id, userId: user && user.id, dimension }))
+  }, [dimension, dispatch, id, user]);
 
   useEffect(() => {
-    if (started) {
-      onHide();
-      history.push("/game");
-    }
-  });
-
-  useEffect(() => {
-    !hasParams() && onStart();
-  });
+    !hasParams() && !started && onStart();
+    started && history.push("/game");
+  }, [hasParams, history, onStart, started]);
 
   return (<>
-      {hasParams() && <Modal show={show} size="sm" backdrop="static" centered onHide={onHide}>
+      {hasParams() && <Modal show size="sm" backdrop="static" centered onHide={onInit}>
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter" className="h2 text-info">Game init</Modal.Title>
         </Modal.Header>

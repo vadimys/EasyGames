@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormControl, InputGroup, Modal } from "react-bootstrap";
 import ServiceAlert from "../common/SeviceAlert";
 
-export default function Login(props) {
+export default function Login({ show, onHide }) {
   const dispatch = useDispatch();
-  const [showDlg, setShowDlg] = useState(props.show);
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [inputs, setInputs] = useState({ username: '', password: '' });
+  const [inputs, setInputs] = useState({ username: "", password: "" });
   const { username, password } = inputs;
   const { loggingIn, isLoggedIn } = useSelector(state => state.login);
   const handleChange = (e) => {
@@ -26,24 +25,13 @@ export default function Login(props) {
     }
   };
   const onShowPassword = () => setShowPassword(!showPassword);
-  const onHideDialog = () => {
-    setShowDlg(false);
-    props.onHide();
-  };
 
   useEffect(() => {
-    dispatch(auth.onLogOut());
-    isLoggedIn && onHideDialog();
-  });
+    isLoggedIn && show && onHide();
+  }, [isLoggedIn, onHide, show]);
 
   return (
-    <Modal
-      show={showDlg}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      onHide={onHideDialog}
-    >
+    <Modal show={show} size="sm" aria-labelledby="contained-modal-title-vcenter" centered onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter" className="h2 text-info">
           Login
@@ -64,7 +52,7 @@ export default function Login(props) {
               value={username}
               onChange={handleChange}
               autoFocus
-              className={'form-control' + (submitted && !username ? ' is-invalid' : '')}
+              className={"form-control" + (submitted && !username ? " is-invalid" : "")}
             />
             {submitted && !username && (
               <FormControl.Feedback type="invalid">
@@ -79,40 +67,31 @@ export default function Login(props) {
               </InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
               value={password}
               onChange={handleChange}
-              className={'form-control' + (submitted && !password ? ' is-invalid' : '')}
+              className={"form-control" + (submitted && !password ? " is-invalid" : "")}
             />
             <InputGroup.Append>
               <InputGroup.Text>
                 <i
-                  className={`fas fa-eye${showPassword ? '' : '-slash'}`}
+                  className={`fas fa-eye${showPassword ? "" : "-slash"}`}
                   onClick={onShowPassword}
                 />
               </InputGroup.Text>
             </InputGroup.Append>
             {submitted && !password && (
-              <FormControl.Feedback type="invalid">
-                Password is required
-              </FormControl.Feedback>
-            )}
-            {submitted && showAlert && (
-              <FormControl.Feedback type="invalid">{alert.message}</FormControl.Feedback>
+              <FormControl.Feedback type="invalid">Password is required</FormControl.Feedback>
             )}
           </InputGroup>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" type="submit">
-            {loggingIn && <span className="spinner-border spinner-border-sm mr-1" />}
-            OK
+            {loggingIn && <span className="spinner-border spinner-border-sm mr-1" />}OK
           </Button>
-          <Button variant="secondary" onClick={onHideDialog}>
-            Cancel
-          </Button>
-          ;
+          <Button variant="secondary" onClick={onHide}>Cancel</Button>
         </Modal.Footer>
       </Form>
       <ServiceAlert />

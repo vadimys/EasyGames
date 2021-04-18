@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Dropdown, DropdownButton, Nav, Navbar } from "react-bootstrap";
 import logo from "../styles/img/logo.svg";
@@ -14,19 +14,17 @@ export default function Header() {
   const [showRegister, setShowRegister] = useState(false);
   const { isLoggedIn } = useSelector(state => state.login);
   const { registered } = useSelector(state => state.registration);
-  const onLogout = () => dispatch(auth.onLogOut());
+  const onLogout = useCallback(() => dispatch(auth.onLogOut()), [dispatch]);
   const moveTo = (path) => history.push(path);
-
-  useEffect(() => history.listen((data) => {
-    if (data.pathname === "/") {
-      showRegister && setShowRegister(false);
-      showLogin && setShowLogin(false);
-    }
-  }));
+  const onRegister = () => setShowRegister(true);
+  const onLogin = useCallback(() => {
+    onLogout();
+    setShowLogin(true);
+  },[onLogout]);
 
   useEffect(() => {
-    registered && setShowLogin(true);
-  }, [registered]);
+    registered && !isLoggedIn && !showLogin && onLogin();
+  }, [isLoggedIn, onLogin, registered, showLogin]);
 
   return (
     <div>
@@ -58,11 +56,11 @@ export default function Header() {
             <Dropdown.Item onClick={onLogout}><i className="fas fa-sign-out-alt mr-2" /> Log out</Dropdown.Item>
           </DropdownButton>
         </> : <>
-          <Button className="mr-2" variant="outline-light" onClick={() => setShowLogin(true)}>Log in</Button>
-          <Button variant="outline-info" onClick={() => setShowRegister(true)}>Sign up</Button>
+          <Button className="mr-2" variant="outline-light" onClick={onLogin}>Log in</Button>
+          <Button variant="outline-info" onClick={onRegister}>Sign up</Button>
         </>}
-        {showLogin && <Login show onHide={() => setShowLogin(false)} />}
-        {showRegister && <Registration show onHide={() => setShowRegister(false)} />}
+        <Login show={showLogin} onHide={() => setShowLogin(false)} />
+        <Registration show={showRegister} onHide={() => setShowRegister(false)} />
       </Navbar>
     </div>
   );

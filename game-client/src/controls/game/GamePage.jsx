@@ -11,7 +11,7 @@ export default function Game() {
 
   useEffect(() => {
     list.length === 0 && dispatch(gameActions.getGames());
-  });
+  }, [dispatch, list.length]);
 
   return (
     <>

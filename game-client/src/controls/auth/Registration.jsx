@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import auth from "../../redux/actions/AuthActions";
 import { Button, Form, FormControl, InputGroup, Modal } from "react-bootstrap";
-import alertActions from "../../redux/actions/AlertActions";
 import ServiceAlert from "../common/SeviceAlert";
 
-export default function Register(props) {
+export default function Register({ show, onHide }) {
+  const empty = { email: "", username: "", password: "" };
   const dispatch = useDispatch();
-  const [showDlg, setShowDlg] = useState(props.show);
   const [showPassword, setShowPassword] = useState(false);
   const { registering, registered } = useSelector(state => state.registration);
   const [submitted, setSubmitted] = useState(false);
-  const [user, setUser] = useState({ email: "", username: "", password: "" });
+  const [user, setUser] = useState(empty);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -30,19 +29,18 @@ export default function Register(props) {
     }
   };
   const onShowPassword = () => setShowPassword(!showPassword);
-  const onHideDialog = () => {
-    setShowDlg(false);
-    props.onHide();
-  };
 
   useEffect(() => {
-    dispatch(alertActions.clear());
-    dispatch(auth.onLogOut());
-    registered && onHideDialog();
-  });
+    registered && show && onHide();
+
+    return () => {
+      setSubmitted(false);
+      setUser(empty);
+    };
+  }, [empty, onHide, registered, show]);
 
   return (
-    <Modal show={showDlg} size="sm" aria-labelledby="contained-modal-title-vcenter" centered onHide={onHideDialog}>
+    <Modal show={show} size="sm" aria-labelledby="contained-modal-title-vcenter" centered onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter" className="h2 text-info">
           Registration
@@ -101,7 +99,7 @@ export default function Register(props) {
             {registering && <span className="spinner-border spinner-border-sm mr-1"> </span>}
             Register
           </Button>
-          <Button variant="secondary" onClick={onHideDialog}>Cancel</Button>
+          <Button variant="secondary" onClick={onHide}>Cancel</Button>
         </Modal.Footer>
       </Form>
       <ServiceAlert />

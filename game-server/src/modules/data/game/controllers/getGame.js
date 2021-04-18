@@ -6,12 +6,14 @@ export default function getGame(req, res) {
   Session.findOne({ userId }).exec((err, doc) => {
     if (err) return res.status(500).send({ message: err });
 
+    console.log(err);
     console.log(doc);
 
-    res.status(200).send({
-      id: doc.id,
-      sessionId: doc._id,
-      dimension: doc.dimension,
-    });
+    doc &&
+      res.status(200).send({
+        id: doc.id,
+        sessionId: doc._id,
+        dimension: doc.dimension,
+      });
   });
 }

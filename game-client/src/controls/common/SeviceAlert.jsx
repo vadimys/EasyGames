@@ -9,13 +9,17 @@ export default function ServiceAlert() {
   const { alert } = useSelector(state => state);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(alertActions.clear());
-      history.push("/");
-    }, 2000);
+    const timer = null;
 
-    return () => clearTimeout(timer);
-  });
+    if (alert.message) {
+      const timer = setTimeout(() => {
+        dispatch(alertActions.clear());
+        history.push("/");
+      }, 2000);
+    }
+
+    return () => timer && clearTimeout(timer);
+  }, [alert.message, dispatch, history]);
 
   return (
     <>
