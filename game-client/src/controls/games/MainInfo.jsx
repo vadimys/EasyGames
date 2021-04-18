@@ -1,10 +1,10 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import parser from "react-html-parser";
-import gameData from "../../helpers/GameData";
+import getGameData from "../../helpers/getGameData";
 
 export default function MainInfo({ id }) {
-  const info = gameData.getMainInfo(id);
+  const info = getGameData({ id, type: "info" });
 
   return (
     <>

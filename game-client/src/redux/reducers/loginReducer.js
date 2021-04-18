@@ -1,11 +1,17 @@
-import types from '../constants';
+import types from "../constants";
 
-let userId = localStorage.getItem('easy-games-user-id');
+let userId = localStorage.getItem("easy-games-user-id");
 const initialState = userId ? {
-    isLoggedIn: true, user: {
-      id: userId
-    }
-  } : {};
+  loggingIn: false,
+  isLoggedIn: true,
+  user: {
+    id: userId
+  }
+} : {
+  loggingIn: false,
+  isLoggedIn: false,
+  user: null
+};
 
 export function login(state = initialState, action) {
   switch (action.type) {
@@ -15,7 +21,7 @@ export function login(state = initialState, action) {
         loggingIn: true
       };
     case types.LOGIN_SUCCESS:
-      localStorage.setItem('easy-games-user-id', action.user.id.toString());
+      localStorage.setItem("easy-games-user-id", action.user.id.toString());
 
       return {
         isLoggedIn: true,
@@ -23,11 +29,14 @@ export function login(state = initialState, action) {
         user: action.user
       };
     case types.LOGIN_ERROR:
-      return {...initialState};
+      return { ...initialState };
     case types.LOGOUT:
-      localStorage.removeItem('easy-games-user-id');
+      localStorage.removeItem("easy-games-user-id");
 
-      return {...initialState};
+      return {
+        loggingIn: false,
+        isLoggedIn: false
+      };
     default:
       return state;
   }

@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import auth from '../../redux/actions/AuthActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
-import alertActions from '../../redux/actions/AlertActions';
+import React, { useEffect, useState } from "react";
+import auth from "../../redux/actions/AuthActions";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Form, FormControl, InputGroup, Modal } from "react-bootstrap";
+import ServiceAlert from "../common/SeviceAlert";
 
-export function LoginPage(props) {
+export default function Login(props) {
   const dispatch = useDispatch();
   const [showDlg, setShowDlg] = useState(props.show);
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [inputs, setInputs] = useState({ username: '', password: '' });
-  const [showAlert, setShowAlert] = useState(false);
   const { username, password } = inputs;
   const { loggingIn, isLoggedIn } = useSelector(state => state.login);
-  const { alert } = useSelector(state => state);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -34,25 +32,9 @@ export function LoginPage(props) {
   };
 
   useEffect(() => {
-    if (alert.message) {
-      const timer = setTimeout(() => setShowAlert(false), 5000);
-
-      setShowAlert(true);
-
-      return () => {
-        dispatch(alertActions.clear());
-        clearTimeout(timer);
-      };
-    }
-  }, [alert.message]);
-
-  useEffect(() => {
     dispatch(auth.onLogOut());
-  }, []);
-
-  useEffect(() => {
     isLoggedIn && onHideDialog();
-  }, [isLoggedIn]);
+  });
 
   return (
     <Modal
@@ -133,7 +115,7 @@ export function LoginPage(props) {
           ;
         </Modal.Footer>
       </Form>
-      {showAlert && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+      <ServiceAlert />
     </Modal>
   );
 }

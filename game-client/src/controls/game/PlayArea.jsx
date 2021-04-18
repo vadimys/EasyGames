@@ -2,11 +2,15 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import gameActions from "../../redux/actions/GameActions";
 import { usePreventLeave } from "../../helpers/usePreventLeave";
+import Waiting from "../common/Waiting";
+import { Card } from "react-bootstrap";
+import getGameData from "../../helpers/getGameData";
 
 export default function PlayArea() {
   const { enablePrevent, disablePrevent } = usePreventLeave();
-  const { dimension, sessionId, started } = useSelector(state => state.game);
   const dispatch = useDispatch();
+  const { user } = useSelector(state => state.login);
+  const { id, dimension, sessionId, started } = useSelector(state => state.game);
   const setNoBorder = (sides) => {
     if (dimension.width === 3 && dimension.height === 3) { // TODO: make more specific
       return sides.map(side => `no-border-${side}`).join(" ");
@@ -14,15 +18,14 @@ export default function PlayArea() {
 
     return "";
   };
+  const gameName = getGameData({ id, type: "name" });
   const items = () => {
     if (dimension) {
-      let tb, lr;
-      let index = 0;
+      let tb, lr, index = 0;
       const data = [];
 
       for (let i = 0; i < dimension.height; i++) {
         tb = (i === 0) ? "top" : i === (dimension.height - 1) ? "bottom" : "";
-
         for (let j = 0; j < dimension.width; j++) {
           lr = (j === 0) ? "left" : j === (dimension.width - 1) ? "right" : "";
           index = i.toString() + j.toString();
@@ -47,18 +50,27 @@ export default function PlayArea() {
   };
 
   useEffect(() => {
-    enablePrevent();
+    !started && dispatch(gameActions.getGamesByUserId({
+      userId: user && user.id
+    }));
+    // enablePrevent();
     return () => {
-      disablePrevent();
+      // disablePrevent();
       onFinishGame();
-    }
-  }, [])
+    };
+  });
 
   return (
-      <div className={`play-area-${dimension.width}`}>
-        {items().map((data, index) =>
-          <div key={index} id={data.id} className={data.className} onClick={data.onClick} />)
-        }
-      </div>
+    <> {started ? <>
+      <Card.Header as={"h3"}>{gameName}</Card.Header>
+      <Card.Body className="play-area-container">
+        <div className={`play-area-${dimension.width}`}>
+          {items().map((data, index) =>
+            <div key={index} id={data.id} className={data.className} onClick={data.onClick} />)}
+        </div>
+      </Card.Body>
+      {/*<Card.Footer><GameControls id={id} /></Card.Footer>*/}
+    </> : <Waiting />}
+    </>
   );
 }

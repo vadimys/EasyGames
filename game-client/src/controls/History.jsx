@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function History() {
+export default function History() {
   return (
     <div>
       <h3>Games short history</h3>

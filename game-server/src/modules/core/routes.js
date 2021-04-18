@@ -5,9 +5,10 @@ import getAllGames from '../data/game/controllers/getAll';
 import getGameProps from '../data/game/controllers/getGameProps';
 import checkDuplicate from '../middlewares/checkDuplicate';
 import setGameLike from '../middlewares/setGameLike';
-import start from '../session/game/controllers/startGame';
-import finish from '../session/game/controllers/finishGame';
-import gameAction from '../session/game/controllers/gameAction';
+import start from '../data/game/controllers/startGame';
+import finish from '../data/game/controllers/finishGame';
+import gameAction from '../data/game/controllers/gameAction';
+import getGame from '../data/game/controllers/getGame';
 
 export default function routes(app) {
   app.post('/signup', [checkDuplicate], signup);
@@ -17,6 +18,7 @@ export default function routes(app) {
   app.get('/props/:id', getGameProps);
   app.get('/games', getAllGames);
   app.post('/start', start);
+  app.post('/game', getGame);
   app.post('/finish', finish);
   app.post('/action', gameAction);
 }

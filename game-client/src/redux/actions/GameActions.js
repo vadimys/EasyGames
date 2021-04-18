@@ -5,6 +5,10 @@ const getGamesRequest = () => ({ type: types.GET_GAMES_REQUEST });
 const getGamesSuccess = (list) => ({ type: types.GET_GAMES_SUCCESS, list });
 const getGamesError = (error) => ({ type: types.GET_GAMES_ERROR, error });
 
+const getGamesByUserId = (data) => ({ type: types.GET_GAME_BY_USER_ID, data });
+const getGamesByUserIdSuccess = (data) => ({ type: types.GET_GAME_BY_USER_ID_SUCCESS, data });
+const getGamesByUserIdError = (error) => ({ type: types.GET_GAME_BY_USER_ID_ERROR, error });
+
 const updateGameProp = (data) => ({ type: types.UPDATE_GAME_PROP, data });
 const updateGamePropSuccess = (data) => ({ type: types.UPDATE_GAME_PROP_SUCCESS, data });
 const updateGamePropError = () => ({ type: types.UPDATE_GAME_PROP_ERROR });
@@ -33,6 +37,10 @@ export default {
   getGamesRequest,
   getGamesSuccess,
   getGamesError,
+
+  getGamesByUserId,
+  getGamesByUserIdSuccess,
+  getGamesByUserIdError,
 
   startGame,
   startGameRequest,

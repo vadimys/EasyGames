@@ -18,6 +18,7 @@ export function game(state = initialState, action) {
         ...state,
         starting: true
       };
+    case types.GET_GAME_BY_USER_ID_SUCCESS:
     case types.START_GAME_SUCCESS:
       const { dimension, id, sessionId } = action.data;
 

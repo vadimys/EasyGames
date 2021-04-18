@@ -3,16 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import auth from "../../redux/actions/AuthActions";
 import { Button, Form, FormControl, InputGroup, Modal } from "react-bootstrap";
 import alertActions from "../../redux/actions/AlertActions";
+import ServiceAlert from "../common/SeviceAlert";
 
-export function RegisterPage(props) {
+export default function Register(props) {
   const dispatch = useDispatch();
   const [showDlg, setShowDlg] = useState(props.show);
-  const [showAlert, setShowAlert] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { registering, registered } = useSelector(state => state.registration);
   const [submitted, setSubmitted] = useState(false);
   const [user, setUser] = useState({ email: "", username: "", password: "" });
-  const { alert } = useSelector(state => state);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -37,26 +36,10 @@ export function RegisterPage(props) {
   };
 
   useEffect(() => {
-    if (alert.message) {
-      const timer = setTimeout(() => setShowAlert(false), 5000);
-
-      setShowAlert(true);
-
-      return () => {
-        dispatch(alertActions.clear());
-        clearTimeout(timer);
-      };
-    }
-  }, [alert.message]);
-
-  useEffect(() => {
     dispatch(alertActions.clear());
     dispatch(auth.onLogOut());
-  }, []);
-
-  useEffect(() => {
     registered && onHideDialog();
-  }, [registered]);
+  });
 
   return (
     <Modal show={showDlg} size="sm" aria-labelledby="contained-modal-title-vcenter" centered onHide={onHideDialog}>
@@ -121,7 +104,7 @@ export function RegisterPage(props) {
           <Button variant="secondary" onClick={onHideDialog}>Cancel</Button>
         </Modal.Footer>
       </Form>
-      {showAlert ? <div className={`alert ${alert.type}`}>{alert.message}</div> : null}
+      <ServiceAlert />
     </Modal>
   );
 }

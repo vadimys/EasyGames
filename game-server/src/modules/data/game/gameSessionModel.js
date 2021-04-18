@@ -4,6 +4,10 @@ export default mongoose.model(
   'GameSession',
   new mongoose.Schema({
     id: Number,
-    dimension: Array,
+    userId: mongoose.Types.ObjectId,
+    dimension: {
+      type: Object,
+      default: {},
+    },
   }),
 );

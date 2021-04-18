@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function HomePage() {
+export default function Home() {
   return (
     <div>
       <h1>Games</h1>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Form, Modal } from "react-bootstrap";
 
-export function Settings(props) {
+export default function Settings(props) {
   const dispatch = useDispatch();
   const [show, setShow] = useState(props.show);
   const { user } = useSelector(state => state.login);

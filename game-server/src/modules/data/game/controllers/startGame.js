@@ -1,8 +1,8 @@
 import Session from '../gameSessionModel';
-import Game from '../../../data/game/gameModel';
+import Game from '../gameModel';
 
 export default function start(req, res) {
-  const { id, firstStep, dimension } = req.body;
+  const { id, userId, dimension } = req.body;
   const session = new Session();
 
   Game.findOne({ id }).exec((err, game) => {
@@ -17,8 +17,11 @@ export default function start(req, res) {
         const size = dimensions[Number(dimension)];
 
         session.id = id;
-        session.firstStep = firstStep;
-        session.dimension = Array(size.height).fill([...Array(size.width).fill(0)]);
+        session.userId = userId;
+        session.dimension = {
+          width: size.width,
+          height: size.height,
+        };
         session.save((err, doc) => {
           if (err) {
             return res.status(500).send({ message: err });
@@ -38,3 +41,5 @@ export default function start(req, res) {
     }
   });
 }
+
+// Array(size.height).fill([...Array(size.width).fill(0)])

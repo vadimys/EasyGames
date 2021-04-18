@@ -24,6 +24,17 @@ export function* getGames() {
   }
 }
 
+export function* getGamesByUserId(data) {
+  try {
+    const res = yield call(() => post(`/game`, data.data));
+
+    yield put(actions.getGamesByUserIdSuccess(res.data));
+  } catch (error) {
+    yield put(alert.error(error.toString()));
+    yield put(actions.getGamesByUserIdError(error.toString()));
+  }
+}
+
 export function* getGamesProps(data) {
   try {
     const res = yield call(() => get('/props', data.id));
