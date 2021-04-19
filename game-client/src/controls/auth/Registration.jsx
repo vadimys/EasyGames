@@ -32,12 +32,7 @@ export default function Register({ show, onHide }) {
 
   useEffect(() => {
     registered && show && onHide();
-
-    return () => {
-      setSubmitted(false);
-      setUser(empty);
-    };
-  }, [empty, onHide, registered, show]);
+  }, [onHide, registered, show]);
 
   return (
     <Modal show={show} size="sm" aria-labelledby="contained-modal-title-vcenter" centered onHide={onHide}>
@@ -54,7 +49,7 @@ export default function Register({ show, onHide }) {
                 <i className="fas fa-envelope" />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl type="email" name="email" value={user.email} onChange={handleChange}
+            <FormControl type="email" name="email" onChange={handleChange}
                          placeholder="Enter email" autoFocus
                          className={"form-control" + (submitted && !user.email ? " is-invalid" : "")} />
             {submitted && !user.email &&
@@ -67,7 +62,7 @@ export default function Register({ show, onHide }) {
                 <i className="fas fa-user" />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl type="text" name="username" value={user.username} onChange={handleChange}
+            <FormControl type="text" name="username" onChange={handleChange}
                          placeholder="Username"
                          className={"form-control" + (submitted && !user.username ? " is-invalid" : "")} />
             {submitted && !user.username &&
@@ -80,7 +75,7 @@ export default function Register({ show, onHide }) {
                 <i className="fas fa-key" />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl type={showPassword ? "text" : "password"} name="password" value={user.password}
+            <FormControl type={showPassword ? "text" : "password"} name="password"
                          onChange={handleChange}
                          placeholder="Password"
                          className={"form-control" + (submitted && !user.password ? " is-invalid" : "")} />
