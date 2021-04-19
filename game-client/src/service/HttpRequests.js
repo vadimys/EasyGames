@@ -16,7 +16,7 @@ function httpMethod(method, url, data, type = "application/json") {
 
   return axios(params).then(res => res).catch(error => {
     throw new Error(error.response
-      ? error.response.data.message
+      ? error.response.status
       : error.message);
   });
 }

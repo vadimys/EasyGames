@@ -37,6 +37,12 @@ export function login(state = initialState, action) {
         loggingIn: false,
         isLoggedIn: false
       };
+    case types.GET_GAMES_PROPS_ERROR:
+      return action.error !== 404 ? { ...state } : {
+        isLoggedIn: false,
+        loggingIn: false,
+        user: null
+      };
     default:
       return state;
   }

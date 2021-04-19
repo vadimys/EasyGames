@@ -1,6 +1,7 @@
 import types from "../constants";
 
 const initialState = {
+  initializing: false,
   canceled: false,
   starting: false,
   started: false,
@@ -13,23 +14,40 @@ const initialState = {
 
 export function game(state = initialState, action) {
   switch (action.type) {
+    case types.INIT_GAME:
+      return {
+        ...initialState,
+        initializing: true,
+      };
+    case types.RESTART_GAME_REQUEST:
+      return {
+        ...state,
+        restarting: true,
+      };
     case types.START_GAME_REQUEST:
       return {
         ...state,
-        starting: true
+        initializing: false,
+        starting: true,
+        started: false
+      };
+    case types.RESTART_GAME_SUCCESS:
+      return {
+        ...state,
+        restarting: false,
+        sessionId: action.data.sessionId
       };
     case types.GET_GAME_BY_USER_ID_SUCCESS:
     case types.START_GAME_SUCCESS:
-      const { dimension, id, sessionId } = action.data;
 
       return !state.canceled ? {
           ...state,
           canceled: false,
           starting: false,
           started: true,
-          dimension,
-          id,
-          sessionId
+          dimension: action.data.dimension,
+          id: action.data.id,
+          sessionId: action.data.sessionId
         } :
         { ...initialState };
     case types.START_GAME_ERROR:

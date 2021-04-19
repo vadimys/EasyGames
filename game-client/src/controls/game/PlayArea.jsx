@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import gameActions from "../../redux/actions/GameActions";
-import { usePreventLeave } from "../../helpers/usePreventLeave";
 import Waiting from "../common/Waiting";
 import { Card } from "react-bootstrap";
 import getGameData from "../../helpers/getGameData";
+import GameControls  from './GameControls'
 
 export default function PlayArea() {
-  const { enablePrevent, disablePrevent } = usePreventLeave();
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.login);
   const { id, dimension, sessionId, started } = useSelector(state => state.game);
@@ -42,31 +41,29 @@ export default function PlayArea() {
     }
   };
   const handleClick = (index) => {
-    dispatch(gameActions.onGameAction({
+    console.log(index);
+    /*dispatch(gameActions.onGameAction({
       sessionId,
       gridIndex: index
-    }));
+    }));*/
   };
 
   useEffect(() => {
     !started && dispatch(gameActions.getGamesByUserId({ userId: user && user.id }));
-    // enablePrevent();
-    return () => {
-      // disablePrevent();
-      sessionId && dispatch(gameActions.finishGame(sessionId));
-    };
-  }, [dispatch, sessionId, started, user]);
+  }, [dispatch, started, user]);
 
   return (
     <> {started ? <>
       <Card.Header as={"h3"}>{gameName}</Card.Header>
       <Card.Body className="play-area-container">
-        <div className={`play-area-${dimension.width}`}>
+        {dimension
+        ? <div className={`play-area-${dimension.width}`}>
           {items().map((data, index) =>
             <div key={index} id={data.id} className={data.className} onClick={data.onClick} />)}
         </div>
+        : <Waiting />}
       </Card.Body>
-      {/*<Card.Footer><GameControls id={id} /></Card.Footer>*/}
+      <Card.Footer><GameControls id={id} /></Card.Footer>
     </> : <Waiting />}
     </>
   );

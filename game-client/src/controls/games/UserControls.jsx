@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import userControlData from "../../helpers/UserControlData";
 import types from "../../redux/constants";
 
-export function UserControls({ id, isFull }) {
+export function UserControls({ id, userControls }) {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.login);
   const { favorite, like } = useSelector(state => state.games);
@@ -32,13 +32,12 @@ export function UserControls({ id, isFull }) {
 
   return (
     <>
-      {userControlData(isFull).map((data) => {
+      {user && userControlData(userControls).map((data) => {
         const { name, type, mr } = data;
 
         return <span key={name} className={name}>
         <i id={type}
-           className={`${getIconType(type)} fa-${name} fa-2x ${mr}`}
-           onClick={onIcon}>
+           className={`${getIconType(type)} fa-${name} fa-2x ${mr}`} onClick={onIcon}>
         </i>
       </span>;
       })}

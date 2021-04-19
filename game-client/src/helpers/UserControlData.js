@@ -1,21 +1,27 @@
-import types from '../redux/constants'
+import types from "../redux/constants";
 
-export default function userControlData(isFull = true) {
-  if (isFull) {
+export default function userControlData(data) {
+  if (!data) {
     return [{
       type: types.FAVORITE,
-      name: 'bookmark',
-      mr: 'mr-5'
+      name: "bookmark",
+      mr: "mr-5"
     }, {
       type: types.LIKE,
-      name: 'thumbs-up',
-      mr: 'mr-2'
-    }]
-  } else {
+      name: "thumbs-up",
+      mr: "mr-2"
+    }];
+  } else if (data === types.FAVORITE) {
     return [{
       type: types.FAVORITE,
-      name: 'bookmark',
-      mr: 'mr-0'
-    }]
+      name: "bookmark",
+      mr: "mr-0"
+    }];
+  } else {
+    return [{
+      type: types.LIKE,
+      name: "thumbs-up",
+      mr: "mr-2"
+    }];
   }
 }

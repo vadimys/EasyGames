@@ -9,5 +9,6 @@ export default mongoose.model(
       type: Object,
       default: {},
     },
+    score: Number,
   }),
 );

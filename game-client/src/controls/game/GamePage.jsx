@@ -7,11 +7,18 @@ import Waiting from "../common/Waiting";
 
 export default function Game() {
   const dispatch = useDispatch();
+  const { user, isLoggedIn } = useSelector(state => state.login);
   const { list } = useSelector(state => state.games);
+  const { sessionId } = useSelector(state => state.game);
 
   useEffect(() => {
     list.length === 0 && dispatch(gameActions.getGames());
-  }, [dispatch, list.length]);
+    return () => {
+      user
+        ? dispatch(gameActions.saveGame(sessionId))
+        : dispatch(gameActions.finishGame(sessionId))
+    }
+  }, [dispatch, list.length, sessionId, user, isLoggedIn]);
 
   return (
     <>

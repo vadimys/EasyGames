@@ -18,7 +18,7 @@ export function Favorite({ id }) {
           <Button variant="info" className="mr-3" onClick={() => setShowInfo(true)}>
             <i className="fas fa-info mr-2"> </i>Info
           </Button>
-          <UserControls id={id} isFull={false} />
+          <UserControls id={id} userControls='favorite' />
           <Modal size="xl" show={showInfo} onHide={() => setShowInfo(false)}
                  aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header closeButton>

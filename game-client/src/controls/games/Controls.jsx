@@ -14,7 +14,7 @@ export default function Controls({ id }) {
       <Nav className="mr-auto">
         <PlayButton id={id} />
       </Nav>
-      {isLoggedIn && isAvailable && <UserControls id={id} isFull />}
+      {isLoggedIn && isAvailable && <UserControls id={id} />}
     </Navbar>
   );
 }

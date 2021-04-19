@@ -1,6 +1,5 @@
 export default function cors(app) {
   app.use((req, res, next) => {
-    // eslint-disable-line consistent-return
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
       'Access-Control-Allow-Headers',

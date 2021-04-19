@@ -6,7 +6,9 @@ import {
   getGames,
   getGamesByUserId,
   getGamesProps,
+  restartGame,
   startGame,
+  saveGame,
   updateGameProp
 } from "../gameSaga";
 
@@ -17,6 +19,8 @@ export function* games() {
   yield takeLatest(types.UPDATE_GAME_PROP, updateGameProp);
 
   yield takeLatest(types.START_GAME, startGame);
+  yield takeLatest(types.RESTART_GAME, restartGame);
+  yield takeLatest(types.SAVE_GAME, saveGame);
   yield takeLatest(types.FINISH_GAME, finishGame);
   yield takeLatest(types.GAME_ACTION, gameAction);
 }

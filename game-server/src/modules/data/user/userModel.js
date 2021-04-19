@@ -15,5 +15,9 @@ export default mongoose.model(
         gripSymbol: '0',
       },
     },
+    sessions: {
+      type: Array,
+      default: [],
+    },
   }),
 );

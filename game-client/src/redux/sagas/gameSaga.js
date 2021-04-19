@@ -1,7 +1,6 @@
-import { call, put, select } from 'redux-saga/effects';
-import actions from '../../redux/actions/GameActions';
-import { get, post } from '../../service/HttpRequests';
-import alert from '../actions/AlertActions';
+import { call, put, select } from "redux-saga/effects";
+import actions from "../../redux/actions/GameActions";
+import { get, post } from "../../service/HttpRequests";
 
 export const getUser = (state) => state.login;
 
@@ -19,19 +18,17 @@ export function* getGames() {
       yield getGamesProps({ id: user.id });
     }
   } catch (error) {
-    yield put(alert.error(error.toString()));
-    yield put(actions.getGamesError(error.toString()));
+    yield put(actions.getGamesError(Number(error.message)));
   }
 }
 
 export function* getGamesByUserId(data) {
   try {
-    const res = yield call(() => post(`/game`, data.data));
+    const res = yield call(() => post('/game', data.data));
 
     yield put(actions.getGamesByUserIdSuccess(res.data));
   } catch (error) {
-    yield put(alert.error(error.toString()));
-    yield put(actions.getGamesByUserIdError(error.toString()));
+    yield put(actions.getGamesByUserIdError(Number(error.message)));
   }
 }
 
@@ -42,8 +39,7 @@ export function* getGamesProps(data) {
 
     yield put(actions.getGamesPropsSuccess({ favorite, like }));
   } catch (error) {
-    yield put(alert.error(error.toString()));
-    yield put(actions.getGamesPropsError(error.toString()));
+    yield put(actions.getGamesPropsError(Number(error.message)));
   }
 }
 
@@ -54,8 +50,7 @@ export function* updateGameProp(data) {
 
     yield put(actions.updateGamePropSuccess({ type, data: res.data }));
   } catch (error) {
-    yield put(alert.error(error.toString()));
-    yield put(actions.updateGamePropError(error.toString()));
+    yield put(actions.updateGamePropError(Number(error.message)));
   }
 }
 
@@ -67,8 +62,19 @@ export function* startGame(data) {
 
     yield put(actions.startGameSuccess(res.data));
   } catch (error) {
-    yield put(alert.error(error.toString()));
-    yield put(actions.startGameError(error.toString()));
+    yield put(actions.startGameError(Number(error.message)));
+  }
+}
+
+export function* restartGame(data) {
+  try {
+    yield put(actions.restartGameRequest());
+
+    const res = yield call(() => post(`/restart`, data.data));
+
+    yield put(actions.restartGameSuccess(res.data));
+  } catch (error) {
+    yield put(actions.restartGameError(Number(error.message)));
   }
 }
 
@@ -77,8 +83,16 @@ export function* finishGame(sessionId) {
     yield call(() => post(`/finish`, sessionId));
     yield put(actions.finishGameSuccess());
   } catch (error) {
-    yield put(alert.error(error.toString()));
-    yield put(actions.finishGameError(error.toString()));
+    yield put(actions.finishGameError(Number(error.message)));
+  }
+}
+
+export function* saveGame(sessionId) {
+  try {
+    yield call(() => post(`/save`, sessionId));
+    yield put(actions.saveGameSuccess());
+  } catch (error) {
+    yield put(actions.saveGameError(Number(error.message)));
   }
 }
 
@@ -90,7 +104,6 @@ export function* gameAction(data) {
 
     yield put(actions.onGameActionResponse(res.data));
   } catch (error) {
-    yield put(alert.error(error.toString()));
-    yield put(actions.onGameActionError(error.toString()));
+    yield put(actions.onGameActionError(Number(error.message)));
   }
 }

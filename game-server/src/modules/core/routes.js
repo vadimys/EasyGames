@@ -9,6 +9,8 @@ import start from '../data/game/controllers/startGame';
 import finish from '../data/game/controllers/finishGame';
 import gameAction from '../data/game/controllers/gameAction';
 import getGame from '../data/game/controllers/getGame';
+import restart from '../data/game/controllers/restartGame';
+import save from '../data/game/controllers/saveGame';
 
 export default function routes(app) {
   app.post('/signup', [checkDuplicate], signup);
@@ -18,7 +20,9 @@ export default function routes(app) {
   app.get('/props/:id', getGameProps);
   app.get('/games', getAllGames);
   app.post('/start', start);
+  app.post('/restart', restart);
   app.post('/game', getGame);
   app.post('/finish', finish);
+  app.post('/save', save);
   app.post('/action', gameAction);
 }

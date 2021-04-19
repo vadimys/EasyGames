@@ -5,23 +5,12 @@ export default async function signin(req, res) {
   const { username, password } = req.body;
 
   User.findOne({ username }).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-
-      return;
-    }
-
-    if (!user) {
-      return res.status(404).send({ message: 'User not found' });
-    }
+    if (err) return res.status(500).send({ message: err });
+    if (!user) return res.status(404).send({ message: 'User not found' });
 
     const isValid = bcrypt.compareSync(password, user.password);
 
-    if (!isValid) {
-      return res.status(401).send({
-        message: 'Invalid Password!',
-      });
-    }
+    if (!isValid) return res.status(401).send({ message: 'Invalid Password' });
 
     res
       .cookie('sid', user._id)
