@@ -25,6 +25,8 @@ export default function save(req, res) {
             },
           },
         }).exec();
+
+        res.status(200).send({ message: 'Game saved successfully!' });
       }
     });
   }

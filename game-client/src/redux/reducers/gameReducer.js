@@ -9,7 +9,9 @@ const initialState = {
   id: null,
   sessionId: null,
   actionStarted: false,
-  actionFinished: false
+  actionFinished: false,
+  restarting: false,
+  restarted: false
 };
 
 export function game(state = initialState, action) {
@@ -23,6 +25,7 @@ export function game(state = initialState, action) {
       return {
         ...state,
         restarting: true,
+        restarted: false
       };
     case types.START_GAME_REQUEST:
       return {
@@ -35,11 +38,11 @@ export function game(state = initialState, action) {
       return {
         ...state,
         restarting: false,
+        restarted: true,
         sessionId: action.data.sessionId
       };
     case types.GET_GAME_BY_USER_ID_SUCCESS:
     case types.START_GAME_SUCCESS:
-
       return !state.canceled ? {
           ...state,
           canceled: false,
@@ -57,6 +60,8 @@ export function game(state = initialState, action) {
         ...state,
         canceled: true
       };
+    case types.SAVE_GAME_SUCCESS:
+      return !state.restarted ? { ...initialState } : {...state};
     case types.FINISH_GAME_SUCCESS:
       return { ...initialState };
     case types.FINISH_GAME_ERROR:
